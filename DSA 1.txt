@@ -1,0 +1,52 @@
+﻿#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Day {
+ char *name;
+ int date;
+ char *activity;
+};
+void create(struct Day calendar[7]) {
+ for (int i = 0; i < 7; i++) {
+ calendar[i].name = (char *)malloc(20 * sizeof(char)); // Assuming max length for name
+ calendar[i].activity = (char *)malloc(100 * sizeof(char)); // Assuming max length for activity
+ }
+}
+void read(struct Day calendar[7]) {
+ for (int i = 0; i < 7; i++) {
+ printf("Enter name for day %d: ", i + 1);
+ scanf("%s", calendar[i].name);
+ printf("Enter date for day %d: ", i + 1);
+ scanf("%d", &calendar[i].date);
+printf("Enter activity for day %d: ", i + 1);
+ getchar(); // Clear the newline from the input buffer
+ fgets(calendar[i].activity, 100, stdin);
+ }
+}
+void display(struct Day calendar[7]) {
+ printf("\tWEEKLY DETAILS\n");
+ printf("\t**************\n\n");
+ printf("Day\tName\tDate\tActivity\n");
+ for (int i = 0; i < 7; i++)
+ {
+ printf("%d\t%s\t%d\t%s\n", i + 1, calendar[i].name, calendar[i].date, calendar[i].activity);
+ }
+}
+void freeMemory(struct Day calendar[7]) {
+ for (int i = 0; i < 7; i++) {
+ free(calendar[i].name);
+ free(calendar[i].activity);
+ }
+}
+int main() {
+ struct Day *calendar = (struct Day *)malloc(7 * sizeof(struct Day));
+ printf("Creating the calendar...\n");
+ create(calendar);
+ printf("Reading the calendar...\n");
+ read(calendar);
+ printf("\nDisplaying the calendar...\n");
+ display(calendar);
+ freeMemory(calendar);
+ free(calendar);
+ return 0;
+}
